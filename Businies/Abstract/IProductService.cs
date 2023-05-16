@@ -8,6 +8,7 @@ namespace Business.Abstract
     {
         IDataResult<List<Product>> GetAll();
         IDataResult<List<ProductDetailDto>> GetProductDetails();
+        IDataResult<Product> GetById(int id);
         IResult Add(Product product);
         IResult Update(Product product);
         IResult Delete(Product product);

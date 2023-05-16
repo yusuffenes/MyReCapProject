@@ -25,6 +25,11 @@ namespace Business.Concrete
             _productDal = productDal;
         }
 
+        public IDataResult<Product> GetById(int id)
+        {
+            return new SuccessDataResult<Product>(_productDal.Get(c => c.ProductId == id),Messages.ProductsListed);
+        }
+
         public IResult Add(Product product)
         {
             _productDal.Add(product);
@@ -39,11 +44,19 @@ namespace Business.Concrete
 
         public IDataResult<List<Product>> GetAll()
         {
-            return new SuccessDataResult<List<Product>>(_productDal.GetAll(), Messages.ProductsListed);
+            if (System.DateTime.Now.Hour == 17)
+            {
+                return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
+            }
+            else
+            {
+                return new SuccessDataResult<List<Product>>(_productDal.GetAll(),Messages.ProductsListed);
+            }
         }
+           
         public IDataResult<List<ProductDetailDto>> GetProductDetails()
         {
-            if (System.DateTime.Now.Hour == 15)
+            if (System.DateTime.Now.Hour == 17)
             {
                 return new ErrorDataResult<List<ProductDetailDto>>(Messages.MaintenanceTime);
             }
